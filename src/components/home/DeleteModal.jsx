@@ -15,7 +15,7 @@ const DeleteModal = ({ move, onClose }) => {
   const handleDeleteMove = () => {
     setLoading(true);
     axios
-      .delete(`http://localhost:5555/api/moves/${id}`, { withCredentials: true })
+      .delete(`${import.meta.env.VITE_API_URL}/moves/${id}`, { withCredentials: true })
       .then(() => {
         setLoading(false);
         onClose(); 

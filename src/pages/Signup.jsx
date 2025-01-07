@@ -20,7 +20,7 @@ const Signup = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5555/api/auth/signup', { username, email, password }, { withCredentials: true });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, { username, email, password }, { withCredentials: true });
       console.log('Signup successful:', response.data);
       navigate('/login');
     } catch (err) {
@@ -33,7 +33,7 @@ const Signup = () => {
     dispatch(loginStart());
     try {
       const result = await signInWithPopup(auth, provider);
-      const response = await axios.post("http://localhost:5555/api/auth/google", { 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/google`, { 
         name: result.user.displayName,
         email: result.user.email,
         img: result.user.photoURL,

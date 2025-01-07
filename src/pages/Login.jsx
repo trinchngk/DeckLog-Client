@@ -21,7 +21,7 @@ const Login = () => {
     setError(null); // Clear any existing error
 
     try {
-      const response = await axios.post('http://localhost:5555/api/auth/login', { email, password }, { withCredentials: true });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { email, password }, { withCredentials: true });
       dispatch(loginSuccess(response.data));
       console.log('Login successful:', response.data);
       navigate('/'); // Redirect to the homepage or dashboard
@@ -36,7 +36,7 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const result = await signInWithPopup(auth, provider);
-      const response = await axios.post("http://localhost:5555/api/auth/google", { 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/google`, { 
         name: result.user.displayName,
         email: result.user.email,
         img: result.user.photoURL,

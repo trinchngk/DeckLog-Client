@@ -41,8 +41,6 @@ const EditModal = ({ move, onClose }) => {
       return;
     }
 
-
-
     setLoading(true);    
 
     const formData = new FormData();
@@ -55,7 +53,7 @@ const EditModal = ({ move, onClose }) => {
     console.log(formData)    
 
     axios
-      .put(`http://localhost:5555/api/moves/${move._id}`, formData, {
+      .put(`${import.meta.env.VITE_API_URL}/moves/${move._id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       })

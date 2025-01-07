@@ -31,7 +31,7 @@ const Home = () => {
     setLoading(true);
 
     axios
-    .get(`http://localhost:5555/api/moves/search?q=${search}`, {
+    .get(`${import.meta.env.VITE_API_URL}/moves/search?q=${search}`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -49,7 +49,7 @@ const Home = () => {
 
     //use axios to fetch data from the server, then update the loading state
     axios
-      .get('http://localhost:5555/api/moves', { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/moves`, { withCredentials: true })
       .then((response) => {
         setMoves(response.data.data);
         setLoading(false);
@@ -92,7 +92,7 @@ const Home = () => {
           <button
             className='bg-[#2E2E33] hover:bg-white hover:text-[#2E2E33] px-5 py-2 mx-5 my-5 rounded-md absolute top-1 right-2 flex cursor-pointer hover:scale-110 transform transition duration-1'
             onClick={() => 
-              fetch('http://localhost:5555/api/auth/logout', {
+              fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
                 method: 'POST',
                 credentials: 'include', 
               })

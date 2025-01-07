@@ -42,7 +42,7 @@ const CreateModal = ({ onClose }) => {
     formData.append('clip', clip); // Append the video file
 
     axios
-      .post('http://localhost:5555/api/moves', formData, {
+      .post(`${import.meta.env.VITE_API_URL}/moves`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       })
