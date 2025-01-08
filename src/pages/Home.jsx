@@ -47,6 +47,11 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
 
+    axios.interceptors.request.use(request => {
+      console.log('Request Cookies:', document.cookie);
+      return request;
+    });
+
     //use axios to fetch data from the server, then update the loading state
     axios
       .get(`${import.meta.env.VITE_API_URL}/moves`, { withCredentials: true })

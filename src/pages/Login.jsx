@@ -24,10 +24,13 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { email, password }, { withCredentials: true });
       dispatch(loginSuccess(response.data));
       console.log('Login successful:', response.data);
+      console.log('Login response headers:', response.headers);
       navigate('/'); // Redirect to the homepage or dashboard
+
     } catch (err) {
       dispatch(loginFailure());
       console.error('Login error:', err);
+      console.error('Login error details:', err.response);
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     }
   };
