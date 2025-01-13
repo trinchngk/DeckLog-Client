@@ -36,7 +36,7 @@ const DeleteModal = ({ move, onClose }) => {
         <div
           className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
         > 
-          <PropagateLoader color="#ffffff"/>
+          <PropagateLoader color="#3c82f6"/>
         </div>
       ) : (
         <div

@@ -31,43 +31,49 @@ const MoveSingleCard = ({ move }) => {
   };
 
   return (
-    <div className='border-2 border-gray-500 rounded-lg px-4 py-2 m-4 relative hover:shadow-xl cursor-pointer ' 
+    <div className= 'h-[300px] rounded-lg px-4 py-2 m-4 relative shadow-xl cursor-pointer ' 
+        style={{
+          backgroundImage: `url('https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/video/upload/so_10,c_thumb/${move.clips.at(-1).clipId}.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
         onClick={(e) => {
           e.stopPropagation(); 
           handleOpenModal(move, "display");
         }}
       >
-      <div className='flex justify-start items-center gap-x-2'>
-        <h2 className='my-2 text-xl'>{move.name}</h2>
-      </div>      
-      <h2 className='mr-2 absolute right-2 px-4 py-1 bg-white text-[#3B3B3B] rounded-lg'>
-        {dayjs(move.updatedAt).format("MM/DD/YYYY")}
-      </h2>
-      {move.finished ? (
-        <h2 className='mb-2 px-4 py-1 bg-green-500 text-white rounded-lg'>
-          Finished
-        </h2>
-      ) : (
-        <h2 className='mb-2 px-4 py-1 bg-orange-500 text-white rounded-lg'>
-          In Progress
-        </h2>
-      )}
+      <h2 className='absolute top-2 left-2 text-lg text-white px-4 py-1 bg-[#3B3B3B] rounded-md'>{move.name}</h2>     
 
-      
-      <div className='flex justify-start items-center gap-x-2'>
-        <h4 className='my-2 text-gray-500'>{move.desc.length > maxChars ? `${move.desc.slice(0, maxChars)}...` : move.desc}</h4>
-      </div>
-      <div className='flex justify-start items-center gap-x-2 absolute bottom-4'>
-        <h2 className='my-2 text-gray-500'>Began on {dayjs(move.startDate).format("MM/DD/YYYY")}</h2>
+      <div className="absolute bottom-2 left-2 right-2 flex items-center">
+        {/* Status bar */}
+        <h2
+          className={`flex-grow px-4 py-1 text-white rounded-lg ${
+            move.status === 'Designing' ? 'bg-orange-500' :
+            move.status === 'Practicing' ? 'bg-blue-500' :
+            move.status === 'Finished' ? 'bg-green-500' : ''
+          }`}
+        >
+          {move.status}
+        </h2>
+
+        {/* Date */}
+        <h2 className="px-4 py-1 bg-[#3B3B3B] text-white rounded-lg ml-2">
+          {dayjs(move.updatedAt).format("MM/DD/YYYY")}
+        </h2>
       </div>
       <div className='flex justify-between items-center gap-x-2 mt-4 p-4'>
-        <MdOutlineDelete 
-          className='text-2xl text-red-600 hover:text-white cursor-pointer absolute right-4 bottom-4' 
-          onClick={(e) => {
-            e.stopPropagation(); 
-            handleOpenModal(move, "delete");
-          }}
-        />
+      <MdOutlineDelete
+        className="text-2xl text-red-600 hover:text-white hover:bg-red-600 cursor-pointer absolute right-2 top-2 bg-[#3B3B3B] p-1 rounded-xl flex items-center justify-center"
+        style={{
+          width: '35px',
+          height: '35px',
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleOpenModal(move, "delete");
+        }}
+      />
       </div>
       {deleteMove && (
         <DeleteModal 
@@ -78,10 +84,7 @@ const MoveSingleCard = ({ move }) => {
       {displayMove && (
         <MoveModal 
           move={displayMove} 
-          onClose={(e) => {
-            e.stopPropagation(); 
-            handleCloseModal();
-          }} />
+          onClose={() => handleCloseModal()} />
       )}
     </div>
   );

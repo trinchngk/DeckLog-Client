@@ -47,11 +47,6 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
 
-    axios.interceptors.request.use(request => {
-      console.log('Request Cookies:', document.cookie);
-      return request;
-    });
-
     //use axios to fetch data from the server, then update the loading state
     axios
       .get(`${import.meta.env.VITE_API_URL}/moves`, { withCredentials: true })
@@ -61,13 +56,14 @@ const Home = () => {
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
+        setLoading(false);        
+        window.location.href = '/login';
       });
 
   }, []);
 
   return (
-    <div className='bg-[#3B3B3B] h-full min-h-screen h-[calc(100vh)] font-mono text-white'>
+    <div className='bg-[#3B3B3B] h-full min-h-screen h-[calc(100vh)] font-sans text-white'>
       <div className='p-4'>
         <div className='flex justify-center items-center gap-x-4'>
           <div className='flex gap-x-4 p-1 hover:bg-gray-600 rounded-md'>
@@ -95,7 +91,7 @@ const Home = () => {
 
 
           <button
-            className='bg-[#2E2E33] hover:bg-white hover:text-[#2E2E33] px-5 py-2 mx-5 my-5 rounded-md absolute top-1 right-2 flex cursor-pointer hover:scale-110 transform transition duration-1'
+            className='bg-blue-500 hover:bg-white hover:text-blue-500 px-5 py-2 mx-5 my-5 rounded-md absolute top-1 right-2 flex cursor-pointer hover:scale-110 transform transition duration-1'
             onClick={() => 
               fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
                 method: 'POST',
@@ -114,11 +110,11 @@ const Home = () => {
 
         </div>
         <div className='mt-4 mb-2 flex items-center bg-white rounded-xl text-[#3B3B3B]'>
-          <h1 className='pl-4 ml-3 mr-10 text-4xl py-4 '>My Repertoire</h1>
+          <h1 className='mx-6 my-2 text-xl'>My Moves</h1>
           <input
             type='text'
             value={search}
-            className='bg-gray-300 focus:bg-white p-3 rounded-xl my-3 w-3/5 ml-10 mr-3 focus:outline-none focus:ring focus:ring-blue-300' 
+            className='bg-gray-300 focus:bg-white p-3 rounded-xl my-3 w-3/4 ml-10 mr-3 focus:outline-none focus:ring focus:ring-blue-300' 
             placeholder='Search'
             onChange={(e) => setSearch(e.target.value)} 
             onKeyDown={(e) => {
@@ -129,13 +125,13 @@ const Home = () => {
           </input>
           <IoSearch onClick={handleSearch} className='text-4xl mr-10 cursor-pointer hover:scale-110 transform transition duration-1'/>    
 
-          <IoIosAddCircle onClick={() => setOpen(true)} className='ml-10 mr-3 text-5xl hover:text-green-400 cursor-pointer hover:scale-110 transform transition duration-1'/>
+          <IoIosAddCircle onClick={() => setOpen(true)} className='ml-10 mr-3 text-5xl hover:text-blue-500 cursor-pointer hover:scale-110 transform transition duration-1'/>
         </div>
         {loading ? (
         <div
           className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
         > 
-          <PropagateLoader color="#ffffff"/>
+          <PropagateLoader color="#3c82f6"/>
         </div>
         ) : showType === 'card' ? (
           <MovesCard moves={moves} /> 

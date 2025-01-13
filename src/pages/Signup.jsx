@@ -50,7 +50,7 @@ const Signup = () => {
 
 
   return (
-    <div className="font-mono flex flex-col items-center justify-center h-screen bg-[#3B3B3B]">
+    <div className="font-sans flex flex-col items-center justify-center h-screen bg-[#3B3B3B]">
       <div className="w-full max-w-sm bg-[#2E2E33] shadow-md rounded-md p-6">
         <h1 className="text-2xl font-semibold text-center text-white mb-6">Signup</h1>
         {error && (
@@ -103,7 +103,7 @@ const Signup = () => {
           </div>
           <button
             type="submit"
-            className="mt-1 w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-900 focus:outline-none focus:ring focus:ring-blue-300"
+            className="mt-1 w-full bg-blue-500 text-white p-2 rounded hover:bg-white hover:text-blue-500 focus:outline-none focus:ring focus:ring-blue-300"
           >
             Signup
           </button>
@@ -118,7 +118,7 @@ const Signup = () => {
         </div>
         <div className="mt-4 text-sm text-center text-gray-500">
           Already have an account?{' '}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <a href="/login" className="text-blue-500 hover:underline">
             Login
           </a>
         </div>

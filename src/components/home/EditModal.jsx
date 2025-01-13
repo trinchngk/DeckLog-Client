@@ -11,7 +11,6 @@ import { MdUploadFile } from 'react-icons/md';
 import { PropagateLoader } from 'react-spinners';
 
 const EditModal = ({ move, onClose }) => {
-  console.log(move)
 
   const [name, setName] = useState(move.name);
   const [desc, setDesc] = useState(move.desc);
@@ -19,7 +18,7 @@ const EditModal = ({ move, onClose }) => {
   const [clips, setClips] = useState(move.clips);
   const [clip, setClip] = useState(null); // Single file object
   const [tags, setTags] = useState(move.tags);
-  const [finished, setFinished] = useState(move.finished);
+  const [status, setStatus] = useState(move.status);
 
   const [previewUrl, setPreviewUrl] = useState(""); // Temporary URL for video preview
 
@@ -83,7 +82,7 @@ const EditModal = ({ move, onClose }) => {
         <div
           className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
         > 
-          <PropagateLoader color="#ffffff"/>
+          <PropagateLoader color="#3c82f6"/>
         </div>
       ) : (
         <div
