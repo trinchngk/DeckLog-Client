@@ -19,10 +19,17 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          ffmpeg: ['@ffmpeg/ffmpeg', '@ffmpeg/util', '@ffmpeg/core']
-        }
-      }
+        manualChunks(id) {
+          if (id.includes('@ffmpeg/core')) {
+            return 'ffmpeg-core'; // Create a separate chunk for @ffmpeg/core
+          }
+          // Default chunking logic
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+      external: ['@ffmpeg/core'],
     }
   }
 })
