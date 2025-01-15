@@ -7,7 +7,7 @@ import { compressVideo } from '../Compress';
 import { cloudinaryUpload } from '../Cloudinary';
 import '@djthoms/pretty-checkbox';
 
-const MoveModal = ({ move, onClose }) => {
+const MoveModal = ({ move, onClose, onSave }) => {
   const [name, setName] = useState(move.name);
   const [desc, setDesc] = useState(move.desc);
   const [tags, setTags] = useState(move.tags.toString());
@@ -19,6 +19,8 @@ const MoveModal = ({ move, onClose }) => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [clipLoad, setClipLoad] = useState(false);
+  const [saved, setSaved] = useState(false);
+
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -48,6 +50,8 @@ const MoveModal = ({ move, onClose }) => {
 
       const cloudinaryRes = await cloudinaryUpload(fileToUpload);
 
+
+
       const clipData = {
         clipUrl: cloudinaryRes.secure_url,
         clipId: cloudinaryRes.public_id,
@@ -56,7 +60,6 @@ const MoveModal = ({ move, onClose }) => {
 
       setAddedClips([...addedClips, clipData]);
 
-      console.log(addedClips);      
       enqueueSnackbar('Clip added successfully!', { variant: 'success' });
       setNote('');
       setClip(null);
@@ -94,20 +97,21 @@ const MoveModal = ({ move, onClose }) => {
       desc,
       tags,
       status,
-      clips: [...clips, addedClips]
-    };
-
-    console.log(moveData)   
+      clips: [...clips, ...addedClips]
+    };  
 
     axios
       .put(`${import.meta.env.VITE_API_URL}/moves/${move._id}`, moveData, {
         withCredentials: true,
       })
       .then(() => {
-        setLoading(false);
-        onClose(); 
-        window.location.reload(); 
+        setSaved(true);
+        setAddedClips([]);
         enqueueSnackbar('Move Updated Successfully', { variant: 'success' });
+        onSave();
+        onClose(); 
+        setLoading(false);
+
       })
       .catch((error) => {
         setLoading(false);
@@ -117,15 +121,8 @@ const MoveModal = ({ move, onClose }) => {
 
   };
 
-  const handleClose = async (event) => {
-    event.stopPropagation()
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-
-    onClose();
-
-    if (addedClips[0]) {
+  const handleCleanup = async () => {
+    if (addedClips[0] && !saved) {
       
       const controller = new AbortController();
 
@@ -148,11 +145,23 @@ const MoveModal = ({ move, onClose }) => {
     }
   };
 
+  const handleClose = async (event) => {
+    event.stopPropagation()
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    await handleCleanup();
+
+    onClose();
+  };
+
   useEffect(() => {
     const handleBeforeUnload = async (event) => {
-      await handleClose();
-      event.preventDefault();
-      event.returnValue = '';
+      if (!saved) {
+        await handleCleanup();
+        event.preventDefault();
+        event.returnValue = '';        
+      }
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -160,7 +169,7 @@ const MoveModal = ({ move, onClose }) => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [addedClips, previewUrl]);
+  }, [clips, previewUrl, saved]);
 
   return (
     <section>
@@ -185,7 +194,7 @@ const MoveModal = ({ move, onClose }) => {
             />
             {/* Left Section */}
             <div className="w-1/3 h-full overflow-y-auto p-4">
-              <h1 className="text-xl mb-4">New Move</h1>
+              <h1 className="text-xl mb-4">Edit Move</h1>
               <input
                 type="text"
                 value={name}

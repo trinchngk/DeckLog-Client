@@ -18,6 +18,7 @@ const CreateModal = ({ onClose }) => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [clipLoad, setClipLoad] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -102,9 +103,11 @@ const CreateModal = ({ onClose }) => {
         withCredentials: true,
       });
 
+      setSaved(true);
+
       enqueueSnackbar('Move Created successfully', { variant: 'success' });
+      setClips([]);
       onClose();
-      window.location.reload();
 
     } catch (error) {
       enqueueSnackbar('Error creating move', { variant: 'error' });
@@ -116,14 +119,8 @@ const CreateModal = ({ onClose }) => {
 
   };
 
-  const handleClose = async () => {
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-
-    onClose();
-
-    if (clips[0]) {
+  const handleCleanup = async () => {
+    if (clips[0] && !saved) {
       
       const controller = new AbortController();
 
@@ -146,11 +143,22 @@ const CreateModal = ({ onClose }) => {
     }
   };
 
+  const handleClose = async () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    await handleCleanup();
+
+    onClose();
+  };
+
   useEffect(() => {
     const handleBeforeUnload = async (event) => {
-      await handleClose();
-      event.preventDefault();
-      event.returnValue = '';
+      if (!saved) {
+        await handleCleanup();
+        event.preventDefault();
+        event.returnValue = '';        
+      }
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -158,7 +166,7 @@ const CreateModal = ({ onClose }) => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [clips, previewUrl]);
+  }, [clips, previewUrl, saved]);
 
   return (
     <section>
@@ -233,7 +241,10 @@ const CreateModal = ({ onClose }) => {
               </div>
               <button
                 className="w-full mt-4 py-4 px-8 bg-blue-500 text-white rounded-lg hover:bg-white hover:text-blue-500"
-                onClick={handleSaveMove}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSaveMove();
+                }}
               >
                 Save
               </button>          

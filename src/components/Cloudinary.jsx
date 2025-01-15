@@ -13,28 +13,22 @@ const getCloudinarySignature = async () => {
 };
 
 export const cloudinaryUpload = async (clip) => {
-  try {
-    const { signature, timestamp } = await getCloudinarySignature();
 
-    const formData = new FormData();
-    formData.append('file', clip);
-    formData.append('signature', signature);
-    formData.append('timestamp', timestamp);
-    formData.append('api_key', import.meta.env.VITE_CLOUDINARY_API_KEY);
-    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+  const formData = new FormData();
 
+  console.log(clip);
+  formData.append('clip', clip);
 
-    const response = await axios.post(
-      `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/video/upload`,
-      formData,
-      {
-        'Content-Type': 'multipart/form-data',
-        'X-Requested-With': 'XMLHttpRequest',
-      }
-    );
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/moves/cloudinary/upload`, formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true,
+    })
+    .catch((error) => {
+      console.error('Error creating clip:', error.response?.data || error.message);
+    });
 
-    return response.data;
-  } catch (error) {
-    console.error('Error uploading to Cloudinary:', error.response?.data || error.message);
-  }
+  return response.data;
+
 };

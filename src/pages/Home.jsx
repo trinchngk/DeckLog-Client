@@ -44,10 +44,10 @@ const Home = () => {
     });
   }
 
-  useEffect(() => {
+  const fetchMoves = async () => {
+    //use axios to fetch data from the server, then update the loading state
     setLoading(true);
 
-    //use axios to fetch data from the server, then update the loading state
     axios
       .get(`${import.meta.env.VITE_API_URL}/moves`, { withCredentials: true })
       .then((response) => {
@@ -59,8 +59,11 @@ const Home = () => {
         setLoading(false);        
         window.location.href = '/login';
       });
+  };
 
-  }, []);
+  useEffect(() => {
+    fetchMoves();
+  }, [open]);
 
   return (
     <div className='bg-[#3B3B3B] h-full min-h-screen h-[calc(100vh)] font-sans text-white'>
@@ -134,7 +137,7 @@ const Home = () => {
           <PropagateLoader color="#3c82f6"/>
         </div>
         ) : showType === 'card' ? (
-          <MovesCard moves={moves} /> 
+          <MovesCard moves={moves} onSave={fetchMoves}/> 
         ) : ( 
           <MovesTable moves={moves} /> 
         )}

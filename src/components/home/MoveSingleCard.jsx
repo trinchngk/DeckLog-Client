@@ -12,7 +12,7 @@ import MoveModal from './MoveModal';
 import DeleteModal from './DeleteModal';
 import dayjs from "dayjs";
 
-const MoveSingleCard = ({ move }) => {
+const MoveSingleCard = ({ move, onSave }) => {
   const [displayMove, setDisplayMove] = useState(null);
   const [deleteMove, setDeleteMove] = useState(null);
   const maxChars = 55;
@@ -84,7 +84,9 @@ const MoveSingleCard = ({ move }) => {
       {displayMove && (
         <MoveModal 
           move={displayMove} 
-          onClose={() => handleCloseModal()} />
+          onClose={() => handleCloseModal()}
+          onSave={onSave} 
+          />
       )}
     </div>
   );
