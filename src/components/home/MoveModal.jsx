@@ -257,13 +257,21 @@ const MoveModal = ({ move, onClose, onSave }) => {
               <div className='overflow-y-auto flex flex-col'>
                 {clips.map((item, index) => (
                   <div key={index} className='border border-gray-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
-                    <div className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none">{item.desc}</div>
+                    <textarea 
+                      className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
+                      type="text"   
+                      value={item.desc}
+                    />
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
                 ))}
                 {addedClips.map((item, index) => (
                   <div key={index} className='border border-blue-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
-                    <div className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none">{item.desc}</div>
+                    <textarea 
+                      className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
+                      type="text"   
+                      value={item.desc}   
+                    />                    
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
                 ))}

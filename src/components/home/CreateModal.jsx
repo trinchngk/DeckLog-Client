@@ -75,9 +75,13 @@ const CreateModal = ({ onClose }) => {
 
   const handleClipChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setClip(file);
-      setPreviewUrl(URL.createObjectURL(file)); // Generate temporary URL for video preview
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      enqueueSnackbar('Please upload a video', { variant: 'warning' });
+      return;
     }
   };
 
@@ -278,7 +282,7 @@ const CreateModal = ({ onClose }) => {
                           className="mb-4 bg-gray-500 px-4 py-2 w-full text-white rounded-xl focus:outline-none"
                         />
                         <input className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-500 cursor-pointer" 
-                              id="file_input" type="file" accept="video/*" onChange={handleClipChange}></input>                     
+                          id="file_input" type="file" accept="video/*" onChange={handleClipChange}></input>                     
                       </div>
                       {previewUrl && (
                         <video className="h-[200px] rounded-xl" src={previewUrl} controls  />
