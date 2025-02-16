@@ -171,6 +171,26 @@ const MoveModal = ({ move, onClose, onSave }) => {
     };
   }, [clips, previewUrl, saved]);
 
+  const handleClipDescChange = (index, newDesc, isAddedClip = false) => {
+    if (isAddedClip) {
+      const updatedAddedClips = addedClips.map((clip, i) => {
+        if (i === index) {
+          return { ...clip, desc: newDesc };
+        }
+        return clip;
+      });
+      setAddedClips(updatedAddedClips);
+    } else {
+      const updatedClips = clips.map((clip, i) => {
+        if (i === index) {
+          return { ...clip, desc: newDesc };
+        }
+        return clip;
+      });
+      setClips(updatedClips);
+    }
+  };
+
   return (
     <section>
       {loading ? (
@@ -252,15 +272,15 @@ const MoveModal = ({ move, onClose, onSave }) => {
 
             {/* Right Section */}
             
-            <div className="w-2/3 mb-8 p-4 flex flex-col" >
+            <div className="w-2/3 mb-8 p-4 flex flex-col">
               <h2 className="mb-4 text-xl text-gray-500">Iterations</h2>       
               <div className='overflow-y-auto flex flex-col'>
                 {clips.map((item, index) => (
                   <div key={index} className='border border-gray-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
                     <textarea 
                       className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
-                      type="text"   
                       value={item.desc}
+                      onChange={(e) => handleClipDescChange(index, e.target.value)}
                     />
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
@@ -269,8 +289,8 @@ const MoveModal = ({ move, onClose, onSave }) => {
                   <div key={index} className='border border-blue-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
                     <textarea 
                       className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
-                      type="text"   
-                      value={item.desc}   
+                      value={item.desc}
+                      onChange={(e) => handleClipDescChange(index, e.target.value, true)}
                     />                    
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
