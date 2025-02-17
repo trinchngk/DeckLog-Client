@@ -13,6 +13,8 @@ import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
 import classNames from "classnames";
 import { PropagateLoader } from 'react-spinners';
+import { LuConstruction } from "react-icons/lu";
+
 
 
 
@@ -22,13 +24,21 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('card');
   const [search, setSearch] = useState('');
+  const [searchDisplay, setSearchDisplay] = useState(false);
 
   const handleCloseModal = () => {
     setOpen(false);
   };
 
+  const handleSearchDisplay = () => {
+    setSearchDisplay(false);
+    setSearch('');
+    fetchMoves();
+  }
+
   const handleSearch = () => {
     setLoading(true);
+    setSearchDisplay(true);
 
     axios
     .get(`${import.meta.env.VITE_API_URL}/moves/search?q=${search}`, {
@@ -113,7 +123,14 @@ const Home = () => {
 
         </div>
         <div className='mt-4 mb-2 flex items-center bg-white rounded-xl text-[#3B3B3B]'>
-          <h1 className='mx-6 my-2 text-xl'>My Moves</h1>
+          {searchDisplay ? (
+            <button 
+              className='py-1 px-3 bg-blue-500 text-white hover:text-blue-500 hover:bg-white rounded-md mx-6 my-2 text-lg'
+              onClick={handleSearchDisplay}
+            >Show All</button>
+          ) : (
+            <h1 className='mx-6 my-2 text-xl'>My Moves</h1>
+          )}
           <input
             type='text'
             value={search}
@@ -130,16 +147,30 @@ const Home = () => {
 
           <IoIosAddCircle onClick={() => setOpen(true)} className='ml-10 mr-3 text-5xl hover:text-blue-500 cursor-pointer hover:scale-110 transform transition duration-1'/>
         </div>
+          
         {loading ? (
-        <div
-          className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
-        > 
-          <PropagateLoader color="#3c82f6"/>
-        </div>
-        ) : showType === 'card' ? (
-          <MovesCard moves={moves} onSave={fetchMoves}/> 
-        ) : ( 
-          <MovesTable moves={moves} /> 
+          <div
+            className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+          > 
+            <PropagateLoader color="#3c82f6"/>
+          </div>
+        ) : (
+          <>
+            { moves[0] ? (
+              <>
+                {showType === 'card' ? (
+                  <MovesCard moves={moves} onSave={fetchMoves}/> 
+                ) : ( 
+                  <MovesTable moves={moves} /> 
+                )}            
+              </>
+            ) : (
+              <div className='flex justify-center items-center text-white flex-col gap-4 mt-20'>
+                <LuConstruction className='text-9xl mt-20'/>
+                <h1>No moves yet 😡</h1>                
+              </div>
+            )}          
+          </>
         )}
       </div> 
       {open && (
