@@ -24,6 +24,8 @@ const MoveEditor = ({
   handleAddClip,
   loading
 }) => { 
+  const totalIterations = clips.length + addedClips.length;
+
   return (
     <section>
       {loading ? (
@@ -39,7 +41,7 @@ const MoveEditor = ({
         >        
           <div
             onClick={(event) => event.stopPropagation()}
-            className="w-[1400px] max-w-full h-[800px] bg-[#2E2E33] rounded-xl p-4 flex relative"
+            className="w-[1400px] max-w-full h-[800px] bg-[#202020] rounded-xl p-4 flex relative"
           >
             <AiOutlineClose
               className="absolute right-6 top-6 text-3xl text-red-600 cursor-pointer hover:text-white"
@@ -53,21 +55,21 @@ const MoveEditor = ({
                 value={name}
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
-                className="mb-4 bg-gray-500 px-4 py-2 w-full text-white rounded-xl font-semibold text-xl focus:outline-none"
+                className="mb-4 bg-[#2E2E33] px-4 py-2 w-full text-white rounded-xl font-semibold text-xl focus:outline-none"
               />
               <textarea
                 value={desc}
                 placeholder="Description"
                 rows={17}
                 onChange={(e) => setDesc(e.target.value)}
-                className="mb-2 bg-gray-500 px-4 py-2 w-full text-white rounded-xl focus:outline-none resize-none"
+                className="mb-2 bg-[#2E2E33] px-4 py-2 w-full text-white rounded-xl focus:outline-none resize-none"
               />
               <input
                 type="text"
                 value={tags}
                 placeholder="Separate tags with commas"
                 onChange={(e) => setTags(e.target.value)}
-                className="mb-4 bg-gray-500 px-4 py-2 w-full text-white rounded-xl focus:outline-none"
+                className="mb-4 bg-[#2E2E33] px-4 py-2 w-full text-white rounded-xl focus:outline-none"
               />
               <div className="inline-flex w-full">
                 <button
@@ -106,22 +108,22 @@ const MoveEditor = ({
             {/* Right Section */}
             
             <div className="w-2/3 mb-8 p-4 flex flex-col">
-              <h2 className="mb-4 text-xl text-gray-500">Iterations</h2>       
+              <h2 className="mb-4 text-xl text-gray-500">{totalIterations} Iteration{totalIterations === 1 ? '' : 's'}</h2>       
               <div className='overflow-y-auto flex flex-col'>
-                {clips.map((item, index) => (
-                  <div key={index} className='border border-gray-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
+                {clips.toReversed().map((item, index) => (
+                  <div key={index} className='border border-gray-500 bg-[#202020] rounded-xl p-4 flex gap-4 mb-4'>
                     <textarea 
-                      className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
+                      className="overflow-y-auto bg-[#2E2E33] px-6 py-4 w-full text-white rounded-xl focus:outline-none"
                       value={item.desc}
                       onChange={(e) => handleClipDescChange(index, e.target.value)}
                     />
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
                 ))}
-                {addedClips.map((item, index) => (
-                  <div key={index} className='border border-blue-500 bg-gray-500 rounded-xl p-4 flex gap-4 mb-4'>
+                {addedClips.toReversed().map((item, index) => (
+                  <div key={index} className='border border-blue-500 bg-[#202020] rounded-xl p-4 flex gap-4 mb-4'>
                     <textarea 
-                      className="overflow-y-auto bg-gray-600 px-6 py-4 w-full text-white rounded-xl focus:outline-none"
+                      className="overflow-y-auto bg-[#2E2E33] px-6 py-4 w-full text-white rounded-xl focus:outline-none"
                       value={item.desc}
                       onChange={(e) => handleClipDescChange(index, e.target.value, true)}
                     />                    
@@ -131,7 +133,7 @@ const MoveEditor = ({
 
                 {clipLoad ? (
                   <div className='flex gap-4 justify-center items-center'>
-                    <PropagateLoader color="#3c82f6" className='m-4 bg-gray-500'/>
+                    <PropagateLoader color="#3c82f6" className='m-4 bg-[#2E2E33]'/>
                   </div>
                 ) : (
                   <>
@@ -143,7 +145,7 @@ const MoveEditor = ({
                             value={note}
                             placeholder="Notes about this iteration..."
                             onChange={(e) => setNote(e.target.value)}
-                            className="mb-4 bg-gray-500 px-4 py-2 w-full text-white rounded-xl focus:outline-none"
+                            className="mb-4 bg-[#2E2E33] px-4 py-2 w-full text-white rounded-xl focus:outline-none"
                           />
                           <input className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-500 cursor-pointer" 
                                 id="file_input" type="file" accept="video/*" onChange={handleClipChange}></input>  
