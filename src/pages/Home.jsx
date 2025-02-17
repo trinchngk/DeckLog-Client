@@ -76,7 +76,7 @@ const Home = () => {
   }, [open]);
 
   return (
-    <div className='bg-[#3B3B3B] h-full min-h-screen h-[calc(100vh)] font-sans text-white'>
+    <div className='bg-[#201c1c] h-full min-h-screen h-[calc(100vh)] font-sans text-white'>
       <div className='p-4'>
         <div className='flex justify-center items-center gap-x-4'>
           <div className='flex gap-x-4 p-1 hover:bg-gray-600 rounded-md'>
@@ -122,7 +122,7 @@ const Home = () => {
           </button>
 
         </div>
-        <div className='mt-4 mb-2 flex items-center bg-white rounded-xl text-[#3B3B3B]'>
+        <div className='mt-4 mb-2 flex items-center bg-white rounded-xl text-[#201c1c]'>
           {searchDisplay ? (
             <button 
               className='py-1 px-3 bg-blue-500 text-white hover:text-blue-500 hover:bg-white rounded-md mx-6 my-2 text-lg'

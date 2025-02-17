@@ -31,9 +31,9 @@ const MoveSingleCard = ({ move, onSave }) => {
   };
 
   return (
-    <div className= 'h-[300px] rounded-lg px-4 py-2 m-4 relative shadow-xl cursor-pointer ' 
+    <div className= 'h-[300px] rounded-md px-4 py-2 m-4 relative shadow-xl cursor-pointer ' 
         style={{
-          backgroundImage: `url('https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/video/upload/so_10,c_thumb/${move.clips.at(-1).clipId}.jpg')`,
+          backgroundImage: `url('https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/video/upload/so_5,c_thumb/${move.clips.at(-1).clipId}.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -43,7 +43,7 @@ const MoveSingleCard = ({ move, onSave }) => {
           handleOpenModal(move, "display");
         }}
       >
-      <h2 className='absolute top-2 left-2 text-lg text-white px-4 py-1 bg-[#3B3B3B] rounded-md'>{move.name}</h2>     
+      <h2 className='absolute top-2 left-2 text-lg text-white px-4 py-1 bg-[#201c1c] rounded-md'>{move.name}</h2>     
 
       <div className="absolute bottom-2 left-2 right-2 flex items-center">
         {/* Status bar */}
@@ -58,13 +58,13 @@ const MoveSingleCard = ({ move, onSave }) => {
         </h2>
 
         {/* Date */}
-        <h2 className="px-4 py-1 bg-[#3B3B3B] text-white rounded-lg ml-2">
+        <h2 className="px-4 py-1 bg-[#201c1c] text-white rounded-md ml-2">
           {dayjs(move.updatedAt).format("MM/DD/YYYY")}
         </h2>
       </div>
       <div className='flex justify-between items-center gap-x-2 mt-4 p-4'>
       <MdOutlineDelete
-        className="text-2xl text-red-600 hover:text-white hover:bg-red-600 cursor-pointer absolute right-2 top-2 bg-[#3B3B3B] p-1 rounded-xl flex items-center justify-center"
+        className="text-2xl text-red-600 hover:text-white hover:bg-red-600 cursor-pointer absolute right-2 top-2 bg-[#201c1c] p-1 rounded-md flex items-center justify-center"
         style={{
           width: '35px',
           height: '35px',

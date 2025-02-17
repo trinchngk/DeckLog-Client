@@ -50,7 +50,7 @@ const Signup = () => {
 
 
   return (
-    <div className="font-sans flex flex-col items-center justify-center h-screen bg-[#3B3B3B]">
+    <div className="font-sans flex flex-col items-center justify-center h-screen bg-[#201c1c]">
       <div className="w-full max-w-sm bg-[#2E2E33] shadow-md rounded-md p-6">
         <h1 className="text-2xl font-semibold text-center text-white mb-6">Signup</h1>
         {error && (
