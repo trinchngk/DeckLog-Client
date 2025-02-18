@@ -21,11 +21,19 @@ const Login = () => {
     setError(null); // Clear any existing error
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { email, password }, { withCredentials: true });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, 
+        { email, password }, 
+        { withCredentials: true,
+          headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }});
       dispatch(loginSuccess(response.data));
       console.log('Login successful:', response.data);
       console.log('Login response headers:', response.headers);
-      navigate('/'); // Redirect to the homepage or dashboard
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 100);
 
     } catch (err) {
       dispatch(loginFailure());
@@ -43,10 +51,17 @@ const Login = () => {
         name: result.user.displayName,
         email: result.user.email,
         img: result.user.photoURL,
-      }, { withCredentials: true }); // Add withCredentials if needed
+      }, 
+      { withCredentials: true,
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }}); // Add withCredentials if needed
       
       dispatch(loginSuccess(response.data));
-      navigate('/');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 100);
     } catch (error) {
       console.error("Google sign-in error:", error);
       dispatch(loginFailure());

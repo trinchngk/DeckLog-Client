@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import { PropagateLoader } from 'react-spinners';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -25,6 +25,14 @@ const MoveEditor = ({
   loading
 }) => { 
   const totalIterations = clips.length + addedClips.length;
+
+    useEffect(() => {
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }, []);
 
   return (
     <section>
