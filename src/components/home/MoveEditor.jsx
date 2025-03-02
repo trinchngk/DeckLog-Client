@@ -1,6 +1,9 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import { PropagateLoader } from 'react-spinners';
 import { AiOutlineClose } from 'react-icons/ai';
+import { BiSolidVideoRecording } from "react-icons/bi";
+import RecModal from './RecModal';
+import CameraTest from './CameraStream';
 
 const MoveEditor = ({
   handleClose,
@@ -34,6 +37,17 @@ const MoveEditor = ({
       };
     }, []);
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [recordedVideo, setRecordedVideo] = useState(null);
+  
+    const handleOpenPopup = () => setShowPopup(true);
+    const handleClosePopup = () => setShowPopup(false);
+  
+    const handleSaveRecording = (blob) => {
+      setRecordedVideo(blob);
+      handleClipChange(blob);
+    };
+
   return (
     <section>
       {loading ? (
@@ -46,7 +60,18 @@ const MoveEditor = ({
         <div
           className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
           onClick={handleClose}
-        >        
+        >  
+          {showPopup && ( 
+            <div
+            className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+            onClick={(event) => event.stopPropagation()}
+            >  
+              <RecModal
+                  onClose={handleClosePopup}
+                  onSave={handleSaveRecording}
+                />
+            </div>
+          )}
           <div
             onClick={(event) => event.stopPropagation()}
             className="w-[1400px] max-w-full h-[800px] bg-[#202020] rounded-xl p-4 flex relative"
@@ -118,6 +143,16 @@ const MoveEditor = ({
             <div className="w-2/3 mb-8 p-4 flex flex-col">
               <h2 className="mb-4 text-xl text-gray-500">{totalIterations} Iteration{totalIterations === 1 ? '' : 's'}</h2>       
               <div className='overflow-y-auto flex flex-col'>
+                {addedClips.toReversed().map((item, index) => (
+                  <div key={index} className='border border-blue-500 bg-[#202020] rounded-xl p-4 flex gap-4 mb-4'>
+                    <textarea 
+                      className="overflow-y-auto bg-[#2E2E33] px-6 py-4 w-full text-white rounded-xl focus:outline-none"
+                      value={item.desc}
+                      onChange={(e) => handleClipDescChange(index, e.target.value, true)}
+                    />                    
+                    <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
+                  </div>
+                ))}                
                 {clips.toReversed().map((item, index) => (
                   <div key={index} className='border border-gray-500 bg-[#202020] rounded-xl p-4 flex gap-4 mb-4'>
                     <textarea 
@@ -128,17 +163,6 @@ const MoveEditor = ({
                     <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
                   </div>
                 ))}
-                {addedClips.toReversed().map((item, index) => (
-                  <div key={index} className='border border-blue-500 bg-[#202020] rounded-xl p-4 flex gap-4 mb-4'>
-                    <textarea 
-                      className="overflow-y-auto bg-[#2E2E33] px-6 py-4 w-full text-white rounded-xl focus:outline-none"
-                      value={item.desc}
-                      onChange={(e) => handleClipDescChange(index, e.target.value, true)}
-                    />                    
-                    <video className="max-h-[600px] max-w-[600px] rounded-xl" src={item.clipUrl} controls />                  
-                  </div>
-                ))}
-
                 {clipLoad ? (
                   <div className='flex gap-4 justify-center items-center'>
                     <PropagateLoader color="#3c82f6" className='m-4 bg-[#2E2E33]'/>
@@ -155,8 +179,17 @@ const MoveEditor = ({
                             onChange={(e) => setNote(e.target.value)}
                             className="mb-4 bg-[#2E2E33] px-4 py-2 w-full text-white rounded-xl focus:outline-none"
                           />
-                          <input className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-500 cursor-pointer" 
-                                id="file_input" type="file" accept="video/*" onChange={handleClipChange}></input>  
+                          <div className="flex gap-4">
+                            <button className="text-sm font-semibold text-red-500 bg-white py-2 px-4 rounded-md hover:bg-red-500 hover:text-white flex gap-2"
+                                    onClick={handleOpenPopup}>
+                              Record 
+                              <BiSolidVideoRecording className='text-xl'/>                              
+                            </button>
+                            <input className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-500 cursor-pointer" 
+                              id="file_input" type="file" accept="video/*" onChange={handleClipChange}>
+                            </input>                              
+                          </div>
+
 
                         </div>
                         {previewUrl && (

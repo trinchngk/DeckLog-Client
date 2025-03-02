@@ -74,6 +74,7 @@ const MoveModal = ({ move, onClose, onSave }) => {
   };
 
   const handleClipChange = (e) => {
+    console.log(e)
     const file = e.target.files[0];
     if (file) {
       setClip(file);
