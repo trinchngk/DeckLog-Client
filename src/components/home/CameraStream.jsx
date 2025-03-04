@@ -83,8 +83,8 @@ const Stream = ({ isActive = true }) => {
         autoPlay
         muted
         playsInline
-        className="rounded-xl"
-        style={{ width: '100%', height: 'auto', backgroundColor: 'black' }}
+        className="rounded-xl border-2 border-blue-500"
+        style={{ width: '100%', height: 'auto', backgroundColor: 'black', transform: 'scaleX(-1)'}}
       />
       )}
     </div>

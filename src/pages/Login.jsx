@@ -163,7 +163,7 @@ const Login = () => {
         </div>
       </div>
       <div className="w-2/3 m-6 max-w-sm shadow-md rounded-md p-6">
-        <h1 className="text-blue-500 text-9xl font-mono">
+        <h1 className="text-blue-500 text-9xl font-mono font-semibold">
           MoveMonkey          
         </h1>
       </div>
