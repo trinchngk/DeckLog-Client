@@ -37,11 +37,11 @@ const RecModal = ({ onClose, onSave }) => {
 
   return (
     <div 
-      className="bg-[#202020] rounded-lg border-2 border-blue-500 py-5 px-10 w-[800px]" 
+      className="bg-[#202020] rounded-lg py-8 px-10 w-[800px]" 
       onClick={(event) => event.stopPropagation()}
     >
       <div className="flex justify-between mb-4 mt-2">
-        <h2 className="text-xl font-semibold border-2 border-blue-500 py-2 px-4 rounded-xl">Record a New Clip</h2>
+        <h2 className="text-xl rounded-xl">Record a New Clip</h2>
         <AiOutlineClose
           className="text-3xl text-red-600 cursor-pointer hover:text-white"
           onClick={onClose}
@@ -49,15 +49,15 @@ const RecModal = ({ onClose, onSave }) => {
       </div>
 
       <div className="relative">
-        <div className="w-full">
+        <div className="w-full p-2 rounded-xl p-4 bg-[#2E2E33]">
           {!finished && <Stream/>}
           {finished && <video className="rounded-xl w-full" src={mediaBlobUrl} controls />}
         </div>
         
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-8 right-8">
           {!isRecording && !finished && (
             <button 
-              className="text-sm font-semibold text-green-500 bg-white py-2 px-4 rounded-md hover:bg-green-500 hover:text-white"
+              className="text-sm font-semibold text-white bg-green-500 py-2 px-4 rounded-md hover:bg-white hover:text-green-500"
               onClick={handleStartRecording}
             >
               Start Recording

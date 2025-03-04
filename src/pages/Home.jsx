@@ -79,6 +79,10 @@ const Home = () => {
     <div className='bg-[#201c1c] h-full min-h-screen h-[calc(100vh)] font-sans text-white'>
       <div className='p-4'>
         <div className='flex justify-center items-center gap-x-4'>
+          <h1 className='text-2xl text-blue-500 font-mono font-semibold absolute top-1 left-2 mx-7 my-7'>
+            MoveMonkey
+          </h1>
+
           <div className='flex gap-x-4 p-1 hover:bg-gray-600 rounded-md'>
             <button
               className={classNames('text-2xl bg-[#2E2E33] hover:bg-white hover:text-[#2E2E33] px-3 py-3 rounded-md hover:scale-110 transform transition duration-1', {
@@ -129,7 +133,7 @@ const Home = () => {
               onClick={handleSearchDisplay}
             >Show All</button>
           ) : (
-            <h1 className='mx-6 my-2 text-xl'>My Moves</h1>
+            <h1 className='mx-6 my-2 text-xl'>My Repertoire</h1>
           )}
           <input
             type='text'
@@ -161,8 +165,8 @@ const Home = () => {
                 {showType === 'card' ? (
                   <MovesCard moves={moves} onSave={fetchMoves}/> 
                 ) : ( 
-                  <MovesTable moves={moves} /> 
-                )}            
+                  <MovesTable moves={moves}/>
+                )}
               </>
             ) : (
               <div className='flex justify-center items-center text-white flex-col gap-4 mt-20'>
